@@ -1,0 +1,79 @@
+# TryHackMe Room Writeup — Git & Version Control
+
+---
+
+## Git and Linus
+
+- Git was released in **2005**.
+- Before Git, developers used **BitKeeper** for version control.
+
+---
+
+## Version Control Concepts
+
+- **Git** is a **distributed** version control system.
+
+---
+
+## Cloud-Based Version Control
+
+- The codebase and version history are stored in the cloud in remote repositories.
+- **GitLab** emphasizes reliability by providing features such as a built-in container registry, built-in continuous deployment to Kubernetes, and GitLab Pages for hosting static websites.
+
+---
+
+## Insufficient Credential Hygiene
+
+Poor credential hygiene can lead to security breaches. Common issues include:
+
+- Insecurely storing credentials in code repositories.
+- Improper usage in build and deployment processes.
+- Leaving credentials in container image layers.
+- Printing credentials to console output.
+- Neglecting to rotate credentials.
+
+**Environment variables** are commonly used to store and manage configuration information as a safer alternative to hardcoding credentials.
+
+> **Note:** Using environment variables does not fully eliminate risk on its own — additional secret management practices are still required.
+
+**Question Answers:**
+- **Environment variables** is the answer to the first question.
+- Environment variables still don't mean you are free from risk.
+
+---
+
+## The Git, the Branch, and the Ugly
+
+- A **branch** can be thought of as a different version of your repository or an independent development line. Various versions of a repository can be contained in multiple branches.
+- **Branching** is a common feature in most VCS tools that allows you to diverge from the main line of development and work on changes without affecting it.
+- Git does not store changesets or differences — instead, it keeps **snapshots** of the content.
+- **Origin** refers to the repository from which a project was initially cloned.
+
+**Question Answers:**
+- Isolated lines of development are called **branches**.
+- The original repo is called the **origin**.
+- You use `git clone` to copy the contents of a repository.
+
+---
+
+## USCSS Nostromo
+
+Key steps and findings from the practical exercise:
+
+- Logged into the machine using the provided credentials via the AttackBox browser.
+- Added an SSH key to the account following the walkthrough.
+- Cloned the repository and opened `nostromo.go`, where credentials were found **hardcoded** directly in the source code.
+- `os.getenv` is a function used to retrieve the values of environment variables — the correct approach for handling credentials in code.
+- After completing the steps and reviewing the repository branches, the flag committed in a branch was found.
+
+> Flag: `THM-3LL3N-RIPL3Y`
+
+---
+
+## Secret Management
+
+- Environment variables alone are not sufficient — proper **secret management** is also required.
+- The `.gitlab-ci.yml` file handles configuration in CI/CD pipelines.
+- The flag was hidden in the **Variables** settings.
+
+> Flag: `THM_S3CUr3_4L13NS`
