@@ -1,0 +1,80 @@
+# TryHackMe Room Writeup — Intro to Docker
+
+---
+
+## Basic Docker Syntax
+
+Key commands for managing Docker images:
+
+| Command | Description |
+|---|---|
+| `docker pull nginx` | Downloads the latest version of the image titled "nginx". |
+| `docker image ls` | Lists all images stored on the local system. |
+| `docker image rm <image>` | Removes an image from the local system. |
+
+> Questions in this section are straightforward if you follow along with the reading material.
+
+---
+
+## Running Your First Container
+
+Key commands for running and managing containers:
+
+| Command | Description |
+|---|---|
+| `docker run -it helloworld /bin/bash` | Runs the container interactively and opens a `/bin/bash` shell for input. |
+| `docker run -d <image>` | Runs a container in detached mode (runs in the background). |
+| `docker run -p 80:80 <image>` | Binds the container to port 80 on the host machine. |
+| `docker ps` | Lists all currently running containers. |
+| `docker ps -a` | Lists all containers, including stopped ones. |
+
+---
+
+## Intro to Dockerfiles
+
+A **Dockerfile** is a formatted text file that serves as an instruction manual for what a container should do, and is used to assemble a Docker image.
+
+Key concepts:
+
+- The `RUN` instruction executes commands — the available commands depend on the operating system specified in the `FROM` instruction.
+- Whatever base operating system is listed in the `FROM` instruction will also be downloaded as part of the build.
+- Once a Dockerfile is ready, the image is built using the `docker build` command.
+- Each instruction (`FROM`, `RUN`, etc.) runs in its own **layer**. Layers increase build time, so the objective is to keep the number of layers as low as possible.
+
+---
+
+## Intro to Docker Compose
+
+**Docker Compose** allows multiple containers (or applications) to interact with each other when needed while still running in isolation from one another. It enables us to define these "microservices" as a single unified "service".
+
+Configuration is defined in a `docker-compose.yml` file.
+
+| Command | Description |
+|---|---|
+| `docker-compose up` | Starts up a series of containers. |
+| `docker-compose down` | Stops and deletes a series of containers. |
+
+---
+
+## Docker Socket
+
+When Docker is installed, two programs are set up:
+
+1. **The Docker Client** — Sends requests via the socket.
+2. **The Docker Server** — Listens for requests via the socket.
+
+Additional context:
+
+- **IPC** stands for **Interprocess Communication**.
+- The Docker Server can be equated to an **API**.
+- The host machine running Docker can be configured to process commands sent from another device. This is an **extremely dangerous vulnerability** if not correctly configured, as it means someone could remotely stop, start, and access Docker containers.
+
+---
+
+## Practical
+
+- Ran `docker ps` to identify the running image: **cloudisland**
+- Ran `docker run -p 80:80 webserver` to start the web server container.
+- Navigated to the provided link and retrieved the flag.
+
+> Flag: `THM{WEBSERVER_CONTAINER}`
